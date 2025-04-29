@@ -14,7 +14,7 @@ public class Customer {
 
     public void updateLocation(Location location) {
         this.location = location;
-        System.out.println("Customer location updated to: " + location.getLatitude() + ", " + location.getLongitude());
+        System.out.println("Customer location updated to: " + location.latitude() + ", " + location.longitude());
     }
 
     public String getId() {
@@ -29,20 +29,7 @@ public class Customer {
         return name;
     }
 
-    public Ride requestRide(Location destination, RideSharingSystem rideSharingSystem) {
-        // request a ride
-        return rideSharingSystem.createRide(this.id, this.location, destination);
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-
-    public void cancelRide(RideSharingSystem rideSharingSystem) {
-        // cancel the ride
-        rideSharingSystem.cancelRide(this);
-    }
-
-    public void payForRide(Payment payment, double fare) {
-        // pay for the ride
-        payment.makePayment(fare);
-    }
-
-
 }

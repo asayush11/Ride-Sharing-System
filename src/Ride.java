@@ -5,23 +5,18 @@ public class Ride {
     private final Location startLocation;
     private final Location endLocation;
     private final Customer customer;
-    private Driver driver;
+    private final Driver driver;
     private final double fare;
     private RideStatus status;
 
-    public Ride(String id, Location startLocation, Location endLocation, Customer customer, double fare) {
+    public Ride(String id, Location startLocation, Location endLocation, Customer customer, double fare, Driver driver) {
         this.id = id;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.customer = customer;
         this.fare = fare;
         this.status = RideStatus.REQUESTED;
-        System.out.println("Ride requested by: " + customer.getName());
-    }
-
-    public void assignDriver(Driver driver) {
         this.driver = driver;
-        System.out.println("Driver assigned: " + driver.getName() + ", " + driver.getVehicle().getRegistrationNumber());
     }
 
     public void updateRideStatus(RideStatus status) {
@@ -47,5 +42,13 @@ public class Ride {
 
     public double getFare() {
         return fare;
+    }
+
+    public Location getStartLocation() {
+        return startLocation;
+    }
+
+    public Location getEndLocation() {
+        return endLocation;
     }
 }

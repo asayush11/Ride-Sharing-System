@@ -1,13 +1,13 @@
 package src;
 
-public class main {
+public class Demo {
     public static void main(String[] args) {
         RideSharingSystem rideSharingSystem = RideSharingSystem.getInstance();
 
         // create some drivers
-        Driver driver1 = rideSharingSystem.addDriver("John", "1234567890", new Car("Toyota", "Red", "ABC123", 4));
-        Driver driver2 = rideSharingSystem.addDriver("Sam", "1234567891", new Car("Hyundai", "White", "ABC124", 4));
-        Driver driver3 = rideSharingSystem.addDriver("Anna", "1234567892", new Bike("Honda", "Black", "ABC125"));
+        Driver driver1 = rideSharingSystem.addDriver("John", "1234567890", new Car("Toyota", "Red", "ABC123", 4), "DL123456");
+        Driver driver2 = rideSharingSystem.addDriver("Sam", "1234567891", new Car("Hyundai", "White", "ABC124", 4), "DL123457");
+        Driver driver3 = rideSharingSystem.addDriver("Anna", "1234567892", new Bike("Honda", "Black", "ABC125"), "DL123458");
 
         // create some customers
         Customer customer1 = rideSharingSystem.addCustomer("Alice", "1234567893");
@@ -25,35 +25,34 @@ public class main {
 
         // request a ride
         rideSharingSystem.updateCustomerLocation(customer1.getId(), new Location(13.9715987, 75.5945627));
-        Ride ride1 = customer1.requestRide(new Location(12.9715987, 79.5945627), rideSharingSystem);
+        Ride ride1 = rideSharingSystem.createRide(customer1, customer1.getLocation(), (new Location(12.9715987, 79.5945627)));
 
         // driver reaches the customer location
-        ride1.getDriver().startRide(rideSharingSystem);
+        rideSharingSystem.startRide(ride1.getDriver());
 
         // display available vehicles
         rideSharingSystem.displayVehiclesAvailable();
 
         // driver reaches the destination
-        double fare = ride1.getDriver().completeRide(rideSharingSystem);
-        customer1.payForRide(new UPIPayment(), fare);
+        double fare = rideSharingSystem.completeRide(ride1.getDriver());
+        rideSharingSystem.makePayment(fare, ride1.getCustomer(), new CardPayment());
 
         // display available vehicles
         rideSharingSystem.displayVehiclesAvailable();
 
         // request a ride
         rideSharingSystem.updateCustomerLocation(customer2.getId(), new Location(13.9715987, 75.5945627));
-        Ride ride2 = customer2.requestRide(new Location(12.9715987, 79.5945627), rideSharingSystem);
+        Ride ride2 = rideSharingSystem.createRide(customer2, customer2.getLocation(), new Location(12.9715987, 79.5945627));
 
         rideSharingSystem.updateCustomerLocation(customer3.getId(), new Location(13.9715987, 75.5945627));
-        Ride ride3 = customer3.requestRide(new Location(12.9715988, 79.5945628), rideSharingSystem);
+        Ride ride3 = rideSharingSystem.createRide(customer3, customer3.getLocation(), new Location(12.9715988, 79.5945628));
 
         rideSharingSystem.updateCustomerLocation(customer4.getId(), new Location(13.9715987, 75.5945627));
-        Ride ride4 = customer4.requestRide(new Location(12.9715989, 79.5945629), rideSharingSystem);
+        Ride ride4 = rideSharingSystem.createRide(customer4, customer4.getLocation(), new Location(12.9715989, 79.5945629));
 
-        // driver reaches the customer location
-        ride2.getDriver().startRide(rideSharingSystem);
-        ride2.getCustomer().cancelRide(rideSharingSystem);
-        ride3.getDriver().cancelRide(rideSharingSystem);
+        // driver reaches the customer locationr
+        rideSharingSystem.cancelRideByDriver(ride2.getDriver());
+        rideSharingSystem.cancelRideByCustomer(ride3.getCustomer());
 
         // display available vehicles
         rideSharingSystem.displayVehiclesAvailable();
